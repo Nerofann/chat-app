@@ -7,17 +7,22 @@ block content
             .chat-list
                 .card-header.h-10
                     .chat-list-header.card-title
-                            | Chats
-                .card-body
-                    .chat-list-items
-                        .chat-list-subitems
-                            .subitems
-                                img(src='https://fastly.picsum.photos/id/230/200/200.jpg?hmac=8tI9ISupCMivMI7f7Q6i24FcYAg812XUEYJFZtaXp_8' alt='')
-                                label test
+                        ="Chats"
+                .search-box 
+                    input(class="form-control form-control-sm" placeholder="Search")
+                .chat-list-items
+                    each val in contact
+                        a(class="chat-list-subitems" href="window.javascript.void(0)")
+                            .px-3.py-2
+                                .subitems
+                                    img(src='https://fastly.picsum.photos/id/230/200/200.jpg?hmac=8tI9ISupCMivMI7f7Q6i24FcYAg812XUEYJFZtaXp_8' alt='')
+                                    div
+                                        label(class="label-contact")=val.fullname
+                                        span(class="last-chat")=val.tags
             .chat-view
                 .card-header.h-10
                     #user_name.chat-list-header.card-title
-                        | Client 1
+                        =user
                 .card-body
                     #chats.chat-box(style='height: 300px;')
                 form#form_send
