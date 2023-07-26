@@ -1,0 +1,85 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.chat-box {
+  display: flex; 
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.chat-box .chat-items-other {
+  max-width: 100%;
+  width: fit-content; 
+  padding: 5px; 
+  margin: 5px; 
+  font-size: 12px; 
+  font-weight: 400; 
+  color: white; 
+  align-self: start;
+  background-color: grey; 
+}
+
+.chat-box .chat-items-self {
+  width: fit-content; 
+  max-width: 100%;
+  padding: 5px; 
+  margin: 5px; 
+  font-size: 12px; 
+  font-weight: 400; 
+  color: white; 
+  align-self: end;
+  background-color: #0aa500; 
+}
+
+.tab {
+  display: flex;
+}
+
+.basepage {
+  margin: auto;
+  max-width: 70%;
+}
+
+.chat-view {
+  flex: auto;
+  background-color: #d9d9d9;
+}
+
+.chat-list {
+  flex: auto;
+  max-width: 30%;
+}
+
+.chat-list-items {
+  margin: 4px 0px 8px 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-list-header {
+  text-wrap: nowrap;
+}
+
+.chat-list-subitems {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+}
+
+.chat-list-subitems .subitems > img {
+  max-width: 50px;
+  max-height: 50px;
+  border-radius: 50%;
+  border: 2px solid red;
+  margin-right: 10px;
+}
+
+.chat-list-subitems .subitems {
+  display: flex;
+}

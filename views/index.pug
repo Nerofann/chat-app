@@ -1,0 +1,31 @@
+extends layout
+block style 
+    link(rel="stylesheet", href="stylesheets/style.css")
+block content
+    .basepage.card.border-primary
+        .tab
+            .chat-list
+                .card-header.h-10
+                    .chat-list-header.card-title
+                            | Chats
+                .card-body
+                    .chat-list-items
+                        .chat-list-subitems
+                            .subitems
+                                img(src='https://fastly.picsum.photos/id/230/200/200.jpg?hmac=8tI9ISupCMivMI7f7Q6i24FcYAg812XUEYJFZtaXp_8' alt='')
+                                label test
+            .chat-view
+                .card-header.h-10
+                    #user_name.chat-list-header.card-title
+                        | Client 1
+                .card-body
+                    #chats.chat-box(style='height: 300px;')
+                form#form_send
+                    .input-group
+                        input#message.form-control(type='text' style='border-radius: 0px;')
+                        .input-group-append
+                            button.btn.btn-success(type='submit' style='border-radius: 0px;') Send
+
+
+block script_foot
+    script(src="/javascripts/auth.js") 

@@ -1,0 +1,31 @@
+extends layout
+
+block style 
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.20/dist/sweetalert2.min.css")
+    
+block content
+    .container.h-100.p-5
+        .row.justify-content-center.align-item-center.h-100
+            .col-4
+                - if(message.error)
+                    .alert.alert-danger=message.error
+
+                - if(message.success)
+                    .alert.alert-success=message.success
+
+                .card
+                    .card-body
+                        .card-title.text-center
+                            label(class="font-weight-bold")= title
+                        form(action='' id='form-login' method='POST')
+                            .form-group
+                                label Username
+                                input.form-control(name='username')
+                            .form-group
+                                label Password
+                                input.form-control(name='password')
+                            .form-group
+                                input.btn.btn-primary(type='submit')
+
+block script_foot
+    script(src="/javascripts/login.js")
