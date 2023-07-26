@@ -1,10 +1,11 @@
 var express     = require('express');
 var router      = express.Router();
-var db          = require('../mysql');
+// var db          = require('../mysql');
 const requestIp = require('request-ip');
 var crypto      = require('crypto');
 const { body, validationResult } = require("express-validator");
 var session;
+var db; 
 
 // const generateCode = (length = 10) => {
 //     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -30,6 +31,7 @@ var session;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    db  = res.locals.db;
     session = req.session;
     if(session.userid) return res.redirect('/users');
     

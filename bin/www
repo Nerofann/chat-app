@@ -4,9 +4,12 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('myapp:server');
-var http = require('http');
+var app         = require('../app');
+var debug       = require('debug')('myapp:server');
+var http        = require('http');
+var websocket   = require('ws');
+
+
 
 /**
  * Get port from environment and store in Express.
@@ -19,7 +22,21 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server    = http.createServer(app);
+
+/**
+ * Create Websocket
+ */
+var socket    = new websocket.Server({server: server, path: '/users'});
+
+socket.on('connection', function(ws, req) {
+  ws.send('connected to server success');
+});
+
+socket.on('message', function(ws, req) {
+  
+});
+
 
 /**
  * Listen on provided port, on all network interfaces.
