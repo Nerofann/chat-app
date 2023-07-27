@@ -8,7 +8,7 @@ var app         = require('../app');
 var debug       = require('debug')('myapp:server');
 var http        = require('http');
 var websocket   = require('ws');
-
+var uuid        = require('uuid');
 
 
 /**
@@ -17,26 +17,39 @@ var websocket   = require('ws');
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
+app.use(function(req, res, next) {
+  console.log(req.url);
+});
 
 /**
- * Create HTTP server.
+ * Create HTTP server. and websocket
  */
 
 var server    = http.createServer(app);
-
-/**
- * Create Websocket
- */
 var socket    = new websocket.Server({server: server, path: '/users'});
+var clients   = {};
 
 socket.on('connection', function(ws, req) {
-  ws.send('connected to server success');
+  let client_id = req.headers['sec-websocket-key'];
+  clients[client_id] = ws;
+
+  console.log(app.session);
+ });
+
+socket.on('close', function(ws, req) {
+  ws.send('Closed: ');
+  clients.delete(ws);
+ 
+  // console.log(clients.size);
 });
 
-socket.on('message', function(ws, req) {
-  
-});
+function broadcast(msg = '') {
+  for(let cl of Object.keys(clients)){
+    clients[cl].send(msg);
+  }
 
+  return true;
+}
 
 /**
  * Listen on provided port, on all network interfaces.
