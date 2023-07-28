@@ -1,7 +1,11 @@
 var express     = require('express');
 var router      = express.Router();
+var socket      = require('../socket');
 // const db    = require('../mysql');
 var db;
+
+let title       = "Live Chat App";
+let siteUrlWS   = socket.siteurl;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -20,8 +24,27 @@ router.get('/', function(req, res, next) {
     db.query(query, function(err, result, fields) {
         if(err) throw err;
 
-        res.render('index', { title: 'Live Chat App', user: 'Client', contact: result});
+        res.render('index', { title: title, user: 'Client', contact: result});
     });
 });
+
+
+router.get('/c/:target', function(req, res, next) {
+    socket.on('connection', function(ws, reqws) {
+        console.log(socket.validate(req.url, reqws));
+    })
+
+    res.render('index', {title: title, contact: []});
+});
+
+router.use(function(req, res, next) {
+    res.render('404');
+})
+
+
+
+/**
+ * Function Event listener
+ */
 
 module.exports = router;
