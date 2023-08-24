@@ -65,6 +65,7 @@ router.get('/', function(req, res, next) {
 
             session         = req.session;
             session.userid  = result[0].code;
+            session.mytags  = result[0].tags;
             let new_ip      = requestIp.getClientIp(req);
 
             if(result[0].ip_address != new_ip) {

@@ -24,17 +24,17 @@ router.get('/', function(req, res, next) {
     db.query(query, function(err, result, fields) {
         if(err) throw err;
 
-        res.render('index', { title: title, user: 'Client', contact: result});
+        res.render('index', { title: title, user: 'Client', contact: result, mytag: req.session.mytags});
     });
 });
 
 
 router.get('/c/:target', function(req, res, next) {
-    socket.on('connection', function(ws, reqws) {
-        console.log(socket.validate(req.url, reqws));
-    })
-
-    res.render('index', {title: title, contact: []});
+    // socket.on('connection', function(ws, reqws) {
+    //     console.log(socket.validate(req.url, reqws));
+    // })
+    console.log('test');
+    // res.render('index', {title: title, contact: []});
 });
 
 router.use(function(req, res, next) {

@@ -17,9 +17,6 @@ var uuid        = require('uuid');
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-app.use(function(req, res, next) {
-  console.log(req.url);
-});
 
 /**
  * Create HTTP server. and websocket
@@ -33,7 +30,7 @@ socket.on('connection', function(ws, req) {
   let client_id = req.headers['sec-websocket-key'];
   clients[client_id] = ws;
 
-  console.log(app.session);
+  // console.log(clients);
  });
 
 socket.on('close', function(ws, req) {
@@ -55,7 +52,7 @@ function broadcast(msg = '') {
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, '192.168.1.8');
 server.on('error', onError);
 server.on('listening', onListening);
 
