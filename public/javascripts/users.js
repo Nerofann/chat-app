@@ -1,11 +1,12 @@
 let url         = "ws://192.168.1.8:3000/users";
 let my_id       = '';
 let target      = '';
-let chats       = {
-    statusConnect: false,
-    target: '',
-    lastSession: Date.now() 
-};
+// let chats       = {
+//     statusConnect: false,
+//     target: '',
+//     lastSession: Date.now() 
+// };
+let chats = JSON.parse(localStorage.getItem('connection'));
 
 $(function() {
     sync();
@@ -13,18 +14,22 @@ $(function() {
     my_id        = $('#mytags').val();
 
     $('.contact').on('click', function(e) {
-        chats.target  = $(this).data('tag');
+        // chats.target  = $(this).data('tag');
+        let target  = $(this).data('tag');
         if(confirm("Connect to user?")) {
             $('#chats').html('');
 
-            const wsChat = new WebSocket(url.concat("?target="+chats.target+"&from="+my_id));
+            const wsChat = new WebSocket(url.concat("?target="+target+"&from="+my_id));
 
             wsChat.onopen = function(event) {
                 setTimeout(() => {
                     console.log('connected');
                     Swal.fire('Connection success', '', 'success');
-                    chats.statusConnect = true;
-                    chats.lastSession   = Date.now();
+                    localStorage.setItem('connection', JSON.stringify({
+                        statusConnect: true,
+                        target: target,
+                        lastSession: Date.now() 
+                    }));
                     sync();
                     // $('#modalConnect').modal('hide');
                 }, 1000);
@@ -59,7 +64,12 @@ $(function() {
                 $('#message').val('');
             })
         }
-    })
+    });
+
+
+    $('#close').on('click', function(evt) {
+        console.log(chats);
+    });
 })
 
 function genereateID() {
@@ -73,14 +83,17 @@ function genereateID() {
 }
 
 function sync(code = '') {
-    if(chats.statusConnect) {
+    if(chats && chats?.target.length) {
         $('.chat-welcome').hide();
         $('.chat-view').show();
-    } else {
+    
+    }else {
         $('.chat-welcome').show();
         $('.chat-view').hide();
-        // $('#form_send').hide();
-        // $('#chats').html('<div class="start-chat">Klik user untuk memulai chat</div>');
     }
-        
+    // if(chats.statusConnect) {
+    // } else {
+    //     // $('#form_send').hide();
+    //     // $('#chats').html('<div class="start-chat">Klik user untuk memulai chat</div>');
+    // }
 }

@@ -74,11 +74,14 @@ socket.on('connection', (ws, req) => {
             }
         }
 
-        if(!format.status) {
-            format.status   = false;
-            format.text     = 'Users is offline';
-            ws.send(JSON.stringify(format));
-        }
+        // if(!format.status) {
+        //     format.status   = false;
+        //     format.text     = 'Users is offline';
+        //     ws.send(JSON.stringify(format));
+        //     ws.close(1001);
+        // }else {
+        //     ws.send(JSON.stringify(format));
+        // }
     });
 });
 
