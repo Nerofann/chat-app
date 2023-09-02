@@ -11,6 +11,11 @@ a {
   display: flex; 
   flex-direction: column;
   overflow-y: auto;
+  height: 100%;
+}
+
+.chat-box::-webkit-scrollbar {
+  display: none;
 }
 
 .chat-box .chat-items-other {
@@ -48,8 +53,51 @@ a {
 }
 
 .chat-view {
-  flex: auto;
+  flex: 1;
   background-color: #d9d9d9;
+}
+
+.chat-welcome {
+  flex: 1;
+  background-color: #d9d9d9;
+}
+
+.bg-full {
+  height: 100%;
+}
+
+.chat-bg {
+  background-image: url('https://wallpapercave.com/wp/wp4410716.jpg');
+  background-size: cover;
+}
+
+.chat-box .chat-me {
+  background-color: #28a745!important;
+  padding: 5px 10px;
+  border-radius: 8px;
+  width: fit-content;
+  font-family: cursive;
+  margin-bottom: 10px;
+  align-self: end;
+}
+
+.chat-box .start-chat {
+  background-color: #f5fdb2c4!important;
+  padding: 5px 10px;
+  border-radius: 8px;
+  width: fit-content;
+  font-family: cursive;
+  margin-bottom: 10px;
+  align-self: center;
+  
+}
+
+.chat-box .chat-from {
+  background-color: #ffffff!important;
+  padding: 5px 10px;
+  border-radius: 8px;
+  width: fit-content;
+  font-family: cursive;
 }
 
 .chat-list {

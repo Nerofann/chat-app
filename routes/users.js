@@ -1,16 +1,16 @@
 var express     = require('express');
 var router      = express.Router();
-var socket      = require('../socket');
+// var socket      = require('../socket');
 // const db    = require('../mysql');
 var db;
 
 let title       = "Live Chat App";
-let siteUrlWS   = socket.siteurl;
+// let siteUrlWS   = socket.siteurl;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     db = res.locals.db;
-    // if(!req.session.userid) return res.redirect('/');    
+    if(!req.session.userid) return res.redirect('/');    
     let query = `
         SELECT 
             tb_contact.c_id,

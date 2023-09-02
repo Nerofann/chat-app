@@ -29,6 +29,15 @@ block content
                                     div
                                         label(class="label-contact")=val.fullname
                                         span(class="last-chat")=val.tags
+            .chat-welcome
+                .card-body.chat-bg.bg-full
+                    .chat-box
+                        .start-chat="Klik user untuk memulai chat"
+
+                        //- .chat-me="Lorem ipsum dolor sit amet"
+                        
+                        //- .chat-from="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
             .chat-view
                 .card-header.h-10
                     #user_name.chat-list-header.card-title
@@ -37,10 +46,14 @@ block content
                         else 
                             =user
                     input(type="hidden" id="mytags" value=`${mytag}`)
-                .card-body
+                .card-body.chat-bg
                     #chats.chat-box(style='height: 300px;')
-                form#form_send
+                        //- .start-chat="Klik user untuk memulai chat"
+                        .chat-me="Lorem ipsum dolor sit amet"
+                        
+                        .chat-from="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                div
                     .input-group
                         input#message.form-control(type='text' style='border-radius: 0px;')
                         .input-group-append
-                            button.btn.btn-success(type='submit' style='border-radius: 0px;') Send
+                            button.btn.btn-success(type='button' id="send_message" style='border-radius: 0px;') Send

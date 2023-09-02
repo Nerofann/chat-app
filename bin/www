@@ -9,7 +9,15 @@ var debug       = require('debug')('myapp:server');
 var http        = require('http');
 var websocket   = require('ws');
 var uuid        = require('uuid');
+let db          = require('../mysql');
+const { text } = require('express');
+const { check } = require('express-validator');
 
+
+const wsServer  = new websocket.Server({noServer: true});
+wsServer.on('connection', function(socket) {
+    socket.on('message', message => console.log(message));
+})
 
 /**
  * Get port from environment and store in Express.
@@ -26,28 +34,6 @@ var server    = http.createServer(app);
 var socket    = new websocket.Server({server: server, path: '/users'});
 var clients   = {};
 
-socket.on('connection', function(ws, req) {
-  let client_id = req.headers['sec-websocket-key'];
-  clients[client_id] = ws;
-
-  // console.log(clients);
- });
-
-socket.on('close', function(ws, req) {
-  ws.send('Closed: ');
-  clients.delete(ws);
- 
-  // console.log(clients.size);
-});
-
-function broadcast(msg = '') {
-  for(let cl of Object.keys(clients)){
-    clients[cl].send(msg);
-  }
-
-  return true;
-}
-
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -56,6 +42,55 @@ server.listen(port, '192.168.1.8');
 server.on('error', onError);
 server.on('listening', onListening);
 
+socket.on('connection', (ws, req) => {
+    let urls = new URLSearchParams(req.url.substring(req.url.indexOf('?')));
+    let code = urls.get('from');
+
+    if(!clients[code]) {
+        clients[code]   = ws;
+    }
+
+    ws.on('message', (message, isBinary) => {
+        // ws.send()
+        let target  = urls.get('target');
+        let from    = urls.get('from');
+        let pesan   = isBinary ? message : message.toString();
+        let format  = {
+            status: false,
+            text: pesan,
+            user: '',
+            datetime: Date.now()
+        };
+
+        for(let key in clients) {
+            if(key === target) {
+                //Handle Target
+                format.status   = true;
+                format.user     = from;
+                clients[key].send(JSON.stringify(format));
+
+                let querys = "INSERT INTO tb_chat (`from`, `to`, `message`) VALUES ('"+from+"', '"+target+"', '"+pesan+"')";
+                db.query(querys);
+            }
+        }
+
+        if(!format.status) {
+            format.status   = false;
+            format.text     = 'Users is offline';
+            ws.send(JSON.stringify(format));
+        }
+    });
+});
+
+// server.on('upgrade', (request, socket, head) => {
+//   wsServer.handleUpgrade(request, socket, Buffer.alloc(0), onSocketConnect)
+// });
+
+// function onSocketConnect (ws, request) {
+//     ws.on('message', function(message) {
+//         ws.send('hello world');
+//     });
+// }
 /**
  * Normalize a port into a number, string, or false.
  */

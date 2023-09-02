@@ -17,21 +17,31 @@ socket.validate = (url, req) => {
     return true;
 };
 
-socket.on('connection', function(ws, req) {
-    // console.log(req.socket.remoteAddress + ' Connected to ' + req.url);
-    let urls = new URLSearchParams(req.url.substring(req.url.indexOf('?')));
+socket.on('message', function(ws, req) {
+    console.log('ada pesan');
+    client.add({
+        cws: ws,
+        cid: urls.get('from')
+    });
 
-    if(urls.get('connect')) {
-        console.log('connect' + urls.get('connect'));
+    for(let cli of client) {
+        if(cli.cid === urls.get('target')) {
+            // ws.send('test');
+            cli.cws.send('test');
+        }
+    }
+})
+
+socket.on('connection', function(ws, req) {
+    let urls = new URLSearchParams(req.url.substring(req.url.indexOf('?')));
+    
+    if(urls.get('target') && urls.get('from')) {
+        console.log(req.socket.remoteAddress + ' Connected to ' + req.url);
         client.add({
             cws: ws,
-            cid: urls.get('connect')
+            cid: urls.get('from')
         });
 
-    }else if(urls.get('target') && urls.get('from')) {
-        console.log('from' + urls.get('from'));
-        
-        // socket.close();
         for(let cli of client) {
             if(cli.cid === urls.get('target')) {
                 // ws.send('test');
@@ -43,6 +53,7 @@ socket.on('connection', function(ws, req) {
         ws.close(1001, 'Sorry');
     }
 });
+
 
 server.listen(port);
 server.on('error', (err) => {
