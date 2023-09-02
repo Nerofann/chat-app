@@ -1,12 +1,12 @@
 let url         = "ws://192.168.1.8:3000/users";
 let my_id       = '';
 let target      = '';
-// let chats       = {
-//     statusConnect: false,
-//     target: '',
-//     lastSession: Date.now() 
-// };
-let chats = JSON.parse(localStorage.getItem('connection'));
+let chats       = {
+    statusConnect: false,
+    target: '',
+    lastSession: Date.now() 
+};
+// let chats = JSON.parse(localStorage.getItem('connection'));
 
 $(function() {
     sync();
@@ -25,11 +25,13 @@ $(function() {
                 setTimeout(() => {
                     console.log('connected');
                     Swal.fire('Connection success', '', 'success');
-                    localStorage.setItem('connection', JSON.stringify({
-                        statusConnect: true,
-                        target: target,
-                        lastSession: Date.now() 
-                    }));
+                    // localStorage.setItem('connection', JSON.stringify({
+                    //     statusConnect: true,
+                    //     target: target,
+                    //     lastSession: Date.now() 
+                    // }));
+                    chats.statusConnect = true;
+                    chats.target    = target;
                     sync();
                     // $('#modalConnect').modal('hide');
                 }, 1000);
@@ -55,7 +57,7 @@ $(function() {
 
 
             $('#send_message').on('click', function(evt) {
-                console.log(evt);
+                // console.log(evt);
                 if(!chats.statusConnect) {
                     Swal.fire('Failed', 'You are not connected with other user', 'error');
                 }
@@ -67,9 +69,10 @@ $(function() {
     });
 
 
-    $('#close').on('click', function(evt) {
-        console.log(chats);
-    });
+    // $('#close').on('click', function(evt) {
+    //     // console.log(chats);
+    //     // wsChat.close();
+    // });
 })
 
 function genereateID() {
@@ -83,17 +86,21 @@ function genereateID() {
 }
 
 function sync(code = '') {
-    if(chats && chats?.target.length) {
+    // if(chats && chats?.target.length) {
+    //     $('.chat-welcome').hide();
+    //     $('.chat-view').show();
+    
+    // }else {
+    //     $('.chat-welcome').show();
+    //     $('.chat-view').hide();
+    // }
+    if(chats.statusConnect) {
         $('.chat-welcome').hide();
         $('.chat-view').show();
-    
-    }else {
+    } else {
         $('.chat-welcome').show();
         $('.chat-view').hide();
+        // $('#form_send').hide();
+        // $('#chats').html('<div class="start-chat">Klik user untuk memulai chat</div>');
     }
-    // if(chats.statusConnect) {
-    // } else {
-    //     // $('#form_send').hide();
-    //     // $('#chats').html('<div class="start-chat">Klik user untuk memulai chat</div>');
-    // }
 }
