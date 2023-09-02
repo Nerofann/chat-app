@@ -85,8 +85,6 @@ socket.on('connection', (ws, req) => {
             format.status   = false;
             format.text     = 'Users is offline';
             ws.send(JSON.stringify(format));
-        }else {
-            ws.send(JSON.stringify(format));
         }
     });
 });
